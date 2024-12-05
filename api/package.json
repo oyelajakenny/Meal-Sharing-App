@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "nodemon src/index.mjs",
-    "start": "node src/index.mjs",
+    "start": "node src/api/index.mjs",
     "format": "npx prettier . --write",
     "check": "npx eslint . --fix"
   },
