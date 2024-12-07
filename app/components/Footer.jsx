@@ -1,3 +1,6 @@
+import React from "react";
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-blue-900 to-black text-white py-20">
@@ -27,9 +30,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Career
-                </a>
+                <Link href="/meals">All Meals</Link>
               </li>
             </ul>
           </div>
@@ -62,9 +63,8 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-4">Meals Cloud</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:underline">
-                  Sushi Platter
-                </a>
+               
+                <Link href="/meals/14">Sushi Platter</Link>
               </li>
               <li>
                 <a href="#" className="hover:underline">
@@ -87,9 +87,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:underline">
-                  Fried Rice
-                </a>
+               <Link href="/meals/7">Fried Rice</Link>
               </li>
             </ul>
           </div>
@@ -131,10 +129,10 @@ export default function Footer() {
         </div>
         <div className="mt-8 border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">
-            2014 Meashly | Website Developed by { " " }
+            2024 Meashly | Website by{" "}
             <span className="font-bold">Oyelaja Hussein</span>
           </p>
-                  </div>
+        </div>
       </div>
     </footer>
   );
