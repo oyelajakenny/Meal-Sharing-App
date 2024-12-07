@@ -24,6 +24,7 @@ export default function Newsletter() {
                 required
                 placeholder="Enter your email"
                 autoComplete="email"
+                disabled
                 className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
               />
               <button
@@ -43,11 +44,10 @@ export default function Newsletter() {
                 />
               </div>
               <dt className="mt-4 text-base font-semibold text-white">
-                Weekly articles
+                Weekly Updates
               </dt>
               <dd className="mt-2 text-base/7 text-gray-400">
-                Non laboris consequat cupidatat laborum magna. Eiusmod non irure
-                cupidatat duis commodo amet.
+                Subscribe to stay up to date with the offers news and updates.
               </dd>
             </div>
             <div className="flex flex-col items-start">
@@ -61,8 +61,7 @@ export default function Newsletter() {
                 No spam
               </dt>
               <dd className="mt-2 text-base/7 text-gray-400">
-                Officia excepteur ullamco ut sint duis proident non adipisicing.
-                Voluptate incididunt anim.
+                We respect your privacy. We won't spam you and you can Unsubscribe at any time.
               </dd>
             </div>
           </dl>
