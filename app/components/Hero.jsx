@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
@@ -10,7 +9,7 @@ const Hero = () => {
       <div >
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1 class="text-8xl font-bold text-left">
+            <h1 className="text-8xl font-bold text-left">
               Your Next Meal, a Shared Experience That Tells a Story
             </h1>
             <p className="hero-description">
