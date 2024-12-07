@@ -26,14 +26,32 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  // Fetch available spots when the form opens
-  useEffect(() => {
-    if (mealId) {
-      fetch(`http://localhost:3002/meals/${mealId}`)
-        .then((response) => response.json())
-        .then((data) => setAvailableSpots(data.available_spots || 0))
-        .catch((err) => setError("Error fetching available spots."));
+  // Fetch available spots from the backend
+  const fetchAvailableSpots = async () => {
+    try {
+      const response = await fetch(`http://localhost:3002/meals/${mealId}`);
+      if (!response.ok) throw new Error("Failed to fetch available spots.");
+      const data = await response.json();
+      setAvailableSpots(data.available_spots || 0);
+      setError(null); // Reset error if fetching is successful
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching available spots.");
     }
+  };
+
+  // Fetch available spots periodically every 5 seconds
+  useEffect(() => {
+    if (!mealId) return;
+
+    // Fetch spots immediately when the form is opened
+    fetchAvailableSpots();
+
+    // Set up an interval to fetch available spots every 5 seconds
+    const intervalId = setInterval(fetchAvailableSpots, 5000);
+
+    // Clear the interval on component unmount or when `mealId` changes
+    return () => clearInterval(intervalId);
   }, [mealId]);
 
   const handleSubmit = async (e) => {
@@ -72,8 +90,9 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
       }
     } catch (err) {
       console.error(err);
-     
-    }
+        }
+
+   
   };
 
   return (
@@ -173,7 +192,6 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
                 {error}
               </Typography>
             )}
-           
           </Box>
         </Box>
       </Fade>
