@@ -8,7 +8,7 @@ const ReviewForm = ({ mealId, onSuccess }) => {
     title: "",
     stars: "",
     description: "",
-    created_date: new Date().toISOString().slice(0, 19).replace("T", " "),
+    created_date: new Date(),
   });
   const [error, setError] = useState(null);
 
@@ -17,13 +17,16 @@ const ReviewForm = ({ mealId, onSuccess }) => {
  const handleSubmit = async (e) => {
    e.preventDefault();
    try {
-     const response = await fetch(`http://localhost:3002/reviews`, {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(newReview),
-     });
+     const response = await fetch(
+       `https://meal-sharing-app-vr0r.onrender.com:3002/reviews`,
+       {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify(newReview),
+       }
+     );
      if (response.ok) {
          setError(null);
        setSuccess(true); 
@@ -32,7 +35,7 @@ const ReviewForm = ({ mealId, onSuccess }) => {
          title: "",
          stars: "",
          description: "",
-         created_date: new Date().toISOString().slice(0, 19).replace("T", " "),
+         created_date: new Date(),
        });
      } else {
        setError("Failed to submit review");
@@ -67,6 +70,7 @@ const ReviewForm = ({ mealId, onSuccess }) => {
          onChange={(e) => setNewReview({ ...newReview, stars: e.target.value })}
          required
          inputProps={{ min: "1", max: "5" }}
+         
        />
        <TextField
          label="Created Date"
