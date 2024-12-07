@@ -1,3 +1,6 @@
+import React from "react";
+
+
 export default function Clients() {
   return (
     <div className="bg-white py-24 sm:py-32">
