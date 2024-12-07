@@ -1,25 +1,38 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Container, Typography, Grid, CircularProgress } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import MealCard from "@/components/MealCard";
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); // Added error state
   const searchParams = useSearchParams();
   const title = searchParams.get("title");
 
   useEffect(() => {
     const fetchSearchResults = async () => {
-      if (!title) return;
+      if (!title) {
+        setResults([]);
+        return;
+      }
 
-      console.log(`Fetching: http://localhost:3002/meals?title=${title}`);
+      console.log(
+        `Fetching: https://meal-sharing-app-vr0r.onrender.com/meals?title=${title}`
+      );
 
       setLoading(true);
+      setError(null); // Clear previous errors
       try {
         const response = await fetch(
-          `http://localhost:3002/meals?title=${title}`
+          `https://meal-sharing-app-vr0r.onrender.com/meals?title=${title}`
         );
         if (!response.ok) {
           throw new Error(`Error fetching meals: ${response.statusText}`);
@@ -29,6 +42,7 @@ const SearchResults = () => {
         setResults(data);
       } catch (error) {
         console.error("Failed to fetch search results:", error);
+        setError("Failed to fetch search results. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -40,10 +54,19 @@ const SearchResults = () => {
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
-        Search Results for "{title || "..."}"
+        Search Results for {title || "..."}
       </Typography>
+
       {loading ? (
         <CircularProgress />
+      ) : error ? (
+        <Alert severity="error" sx={{ marginBottom: 2 }}>
+          {error}
+        </Alert>
+      ) : results.length === 0 ? (
+        <Typography variant="body2" color="text.secondary">
+          No results found for "{title}". Please try a different search term.
+        </Typography>
       ) : (
         <>
           <Typography variant="body2" color="text.secondary" gutterBottom>
