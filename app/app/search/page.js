@@ -18,7 +18,7 @@ const MealList = () => {
     const fetchMeals = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3002/meals?sortKey=${sortOptions.sortField}&sortDir=${sortOptions.sortDirection}&page=${page}&pageSize=${pageSize}`
+          `https://meal-sharing-app-vr0r.onrender.com/meals?sortKey=${sortOptions.sortField}&sortDir=${sortOptions.sortDirection}&page=${page}&pageSize=${pageSize}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
