@@ -61,7 +61,7 @@ export default function Newsletter() {
                 No spam
               </dt>
               <dd className="mt-2 text-base/7 text-gray-400">
-                We respect your privacy. We won't spam you and you can Unsubscribe at any time.
+                We respect your privacy. We won&lsquo;t spam you and you can Unsubscribe at any time.
               </dd>
             </div>
           </dl>

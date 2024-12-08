@@ -65,7 +65,7 @@ const SearchResults = () => {
         </Alert>
       ) : results.length === 0 ? (
         <Typography variant="body2" color="text.secondary">
-          No results found for "{title}". Please try a different search term.
+          No results found for &quot;{title}&quot;. Please try a different search term.
         </Typography>
       ) : (
         <>
