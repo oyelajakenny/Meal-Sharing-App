@@ -5,6 +5,7 @@ import { Typography, Paper, Container, Box, Button } from "@mui/material";
 import ReservationForm from "@/components/ReservationForm";
 import ReviewForm from "@/components/ReviewForm";
 import CompassCalibrationIcon from "@mui/icons-material/CompassCalibration";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 function MealDetail() {
   const { id } = useParams();
@@ -18,19 +19,29 @@ function MealDetail() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
+  const fetchMealData = () => {
     if (id) {
-      fetch(`http://localhost:3002/meals/${id}`)
+      fetch(`https://meal-sharing-app-vr0r.onrender.com/meals/${id}`)
         .then((response) => response.json())
         .then((data) => setMeal(data))
         .catch((err) => setError("Error fetching meal details"));
 
-      fetch(`http://localhost:3002/meals/${id}/reviews`)
+      fetch(`https://meal-sharing-app-vr0r.onrender.com/meals/${id}/reviews`)
         .then((response) => response.json())
         .then((data) => setReviews(data))
         .catch((err) => setError("Error fetching reviews"));
     }
-  }, [id]);
+  };
+
+  // Fetch meal data on component mount and when `reservationSuccess` changes
+  useEffect(() => {
+    fetchMealData();
+
+    // Reset the reservation success flag after re-fetching data
+    if (reservationSuccess) {
+      setReservationSuccess(false);
+    }
+  }, [id, reservationSuccess]);
 
   return (
     <Container>
@@ -38,19 +49,24 @@ function MealDetail() {
         <>
           <Paper elevation={3} sx={{ padding: 2, marginBottom: 3 }}>
             <img src={meal.image_url} alt={meal.title} width="100%" />
-            <Typography>
-              {reviews.length} {reviews.length === 1 ? "Review" : "Reviews"}
-            </Typography>
+
             <Typography variant="h4" component="h2" gutterBottom>
               {meal.title}
             </Typography>
             <Typography variant="body1" gutterBottom>
-              {meal.description}
+              <strong>Description:</strong> {meal.description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Price:
+              <strong style={{ fontWeight: "bold", fontSize: "20px" }}>
+                <MonetizationOnIcon /> Price:
+              </strong>
               <span
-                style={{ fontWeight: "bold", color: "green", fontSize: "20px" }}
+                style={{
+                  fontWeight: "bold",
+                  color: "green",
+                  fontSize: "25px",
+                  marginBottom: "10px",
+                }}
               >
                 {meal.price} Kr
               </span>
@@ -58,14 +74,14 @@ function MealDetail() {
             <Typography variant="body2" color="text.secondary">
               <CompassCalibrationIcon /> {meal.location.toUpperCase()}
             </Typography>
-            <div >
-              <Typography variant="body2" color="text.secondary">
-                Max Reservations: {meal.max_reservations}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Available Spots: {meal.available_spots}
-              </Typography>
-            </div>
+
+            <Typography variant="body2" color="text.secondary">
+              Max Reservations: {meal.max_reservations}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Available Spots: {meal.available_spots}
+            </Typography>
+
             {meal.available_spots > 0 ? (
               <>
                 <Button
@@ -80,7 +96,7 @@ function MealDetail() {
                   mealId={id}
                   open={open}
                   handleClose={handleClose}
-                  setReservationSuccess={setReservationSuccess}
+                  handleSuccess={() => setReservationSuccess(true)}
                   setError={setError}
                 />
               </>
@@ -116,6 +132,9 @@ function MealDetail() {
                     <strong>{review.title}</strong> rated {review.stars}/5
                   </Typography>
                   <Typography variant="body2">{review.description}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {review.created_date}
+                  </Typography>
                 </Box>
               ))
             ) : (
