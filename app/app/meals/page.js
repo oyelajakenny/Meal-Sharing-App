@@ -24,9 +24,8 @@ const MealList = () => {
         if (searchQuery.trim()) {
           queryParams.append("title", searchQuery);
         }
-
         const response = await fetch(
-          `http://localhost:3002/meals?${queryParams.toString()}`
+          `https://meal-sharing-app-vr0r.onrender.com/meals?${queryParams.toString()}`
         );
 
         if (!response.ok) {
@@ -50,7 +49,7 @@ const MealList = () => {
 
   return (
     <Container>
-      <div className="search-container" >
+      <div className="search-container">
         <div
           style={{ marginTop: "20px", marginBottom: "20px", display: "flex" }}
         >
@@ -80,7 +79,7 @@ const MealList = () => {
       </div>
 
       {/* Meal List */}
-      <Grid container spacing={3} style={{ marginTop: "20px" }} >
+      <Grid container spacing={3} style={{ marginTop: "20px" }}>
         {meals.length > 0 ? (
           meals.map((meal) => (
             <Grid item xs={12} sm={6} md={4} key={meal.id}>
@@ -98,7 +97,7 @@ const MealList = () => {
             </Grid>
           ))
         ) : (
-          <Typography variant="body1">Loading Meals...</Typography>
+          <Typography variant="body1">No meals found</Typography>
         )}
       </Grid>
     </Container>
