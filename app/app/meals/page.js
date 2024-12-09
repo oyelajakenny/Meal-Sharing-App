@@ -5,7 +5,11 @@ import MealCard from "@/components/MealCard";
 import SortControls from "@/components/SortControls";
 import { Typography, Container, Grid, Button, TextField } from "@mui/material";
 
+const api_url = process.env.NEXT_PUBLIC_API;
+
+
 const MealList = () => {
+  
   const [meals, setMeals] = useState([]); // Meals to display
   const [searchQuery, setSearchQuery] = useState(""); // Search input value
   const [sortOptions, setSortOptions] = useState({
@@ -25,7 +29,7 @@ const MealList = () => {
           queryParams.append("title", searchQuery);
         }
         const response = await fetch(
-          `https://meal-sharing-app-vr0r.onrender.com/meals?${queryParams.toString()}`
+          `${api_url}/meals?${queryParams.toString()}`
         );
 
         if (!response.ok) {
