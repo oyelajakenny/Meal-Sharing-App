@@ -14,6 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
+const apiUrl = process.env.NEXT_PUBLIC_API;
 const Meals = ({
   image,
   title,
@@ -78,7 +79,7 @@ const MealList = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch("http://localhost:3002/meals");
+        const response = await fetch(`${apiUrl}/meals`);
         const data = await response.json();
         setMeals(data);
       } catch (error) {
@@ -87,7 +88,7 @@ const MealList = () => {
     };
      const fetchReviews = async () => {
        try {
-         const response = await fetch("http://localhost:3002/reviews");
+         const response = await fetch(`${apiUrl}/reviews`);
          const reviews = await response.json();
            setReviews(reviews);
        } catch (error) {
