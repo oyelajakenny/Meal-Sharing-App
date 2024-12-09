@@ -7,6 +7,9 @@ import ReviewForm from "@/components/ReviewForm";
 import CompassCalibrationIcon from "@mui/icons-material/CompassCalibration";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
+const api_url = process.env.NEXT_PUBLIC_API;
+
+
 function MealDetail() {
   const { id } = useParams();
   const [meal, setMeal] = useState(null);
@@ -20,13 +23,14 @@ function MealDetail() {
   const handleClose = () => setOpen(false);
 
   const fetchMealData = () => {
+   
     if (id) {
-      fetch(`https://meal-sharing-app-vr0r.onrender.com/meals/${id}`)
+      fetch(`${api_url}/meals/${id}`)
         .then((response) => response.json())
         .then((data) => setMeal(data))
         .catch((err) => setError("Error fetching meal details"));
 
-      fetch(`https://meal-sharing-app-vr0r.onrender.com/meals/${id}/reviews`)
+      fetch(`${api_url}/meals/${id}/reviews`)
         .then((response) => response.json())
         .then((data) => setReviews(data))
         .catch((err) => setError("Error fetching reviews"));
