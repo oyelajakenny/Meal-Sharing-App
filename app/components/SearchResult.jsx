@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import MealCard from "@/components/MealCard";
 
+const apiUrl = process.env.NEXT_PUBLIC_API;
+
 const SearchResults = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,16 +26,12 @@ const SearchResults = () => {
         return;
       }
 
-      console.log(
-        `Fetching: https://meal-sharing-app-vr0r.onrender.com/meals?title=${title}`
-      );
+      console.log(`Fetching: ${apiUrl}/meals?title=${title}`);
 
       setLoading(true);
       setError(null); // Clear previous errors
       try {
-        const response = await fetch(
-          `https://meal-sharing-app-vr0r.onrender.com/meals?title=${title}`
-        );
+        const response = await fetch(`${apiUrl}/meals?title=${title}`);
         if (!response.ok) {
           throw new Error(`Error fetching meals: ${response.statusText}`);
         }
@@ -65,7 +63,8 @@ const SearchResults = () => {
         </Alert>
       ) : results.length === 0 ? (
         <Typography variant="body2" color="text.secondary">
-          No results found for &quot;{title}&quot;. Please try a different search term.
+          No results found for &quot;{title}&quot;. Please try a different
+          search term.
         </Typography>
       ) : (
         <>
