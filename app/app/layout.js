@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
       <body className="main">
         <ResponsiveNavbar />
         {children}
+        <Footer />
       </body>
       
     </html>
