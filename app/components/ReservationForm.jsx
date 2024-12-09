@@ -13,6 +13,8 @@ const style = {
   p: 4,
 };
 
+const  api_url = process.env.NEXT_PUBLIC_API;
+
 const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
   const [reservation, setReservation] = useState({
     meal_id: mealId,
@@ -29,7 +31,9 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
   // Fetch available spots from the backend
   const fetchAvailableSpots = async () => {
     try {
-      const response = await fetch(`http://localhost:3002/meals/${mealId}`);
+      const response = await fetch(
+        `${api_url}/meals/${mealId}`
+      );
       if (!response.ok) throw new Error("Failed to fetch available spots.");
       const data = await response.json();
       setAvailableSpots(data.available_spots || 0);
@@ -62,16 +66,22 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3002/reservations`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...reservation,
-          created_date: new Date().toISOString().slice(0, 19).replace("T", " "),
-        }),
-      });
+      const response = await fetch(
+        `${api_url}/reservations`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...reservation,
+            created_date: new Date()
+              .toISOString()
+              .slice(0, 19)
+              .replace("T", " "),
+          }),
+        }
+      );
 
       if (response.ok) {
         setSuccess(true);
@@ -90,6 +100,7 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
       }
     } catch (err) {
       console.error(err);
+      setError("An error occurred while making a reservation.");
         }
 
    
