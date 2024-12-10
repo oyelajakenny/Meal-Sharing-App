@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { TextField, Button, Typography, Box, Paper } from "@mui/material";
 
-const ReviewForm = ({ mealId, onSuccess }) => {
+const api_url = process.env.NEXT_PUBLIC_API;
+
+const ReviewForm = ({ mealId }) => {
   const [newReview, setNewReview] = useState({
     meal_id: mealId,
     title: "",
@@ -18,7 +20,7 @@ const ReviewForm = ({ mealId, onSuccess }) => {
    e.preventDefault();
    try {
      const response = await fetch(
-       `https://meal-sharing-app-vr0r.onrender.com:3002/reviews`,
+       `${api_url}/reviews`,
        {
          method: "POST",
          headers: {
