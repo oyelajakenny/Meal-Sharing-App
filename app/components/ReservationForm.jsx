@@ -46,17 +46,38 @@ const ReservationForm = ({ mealId, open, handleClose, handleSuccess }) => {
 
   // Fetch available spots periodically every 5 seconds
   useEffect(() => {
-    if (!mealId) return;
+    if (!mealId || !open) return;
+
+    let intervalId;
+    let isMounted = true;
+
+    // Safe fetch function that checks if component is still mounted
+    const safeFetchAvailableSpots = async () => {
+      if (!isMounted || !open) return;
+      try {
+        await fetchAvailableSpots();
+      } catch (err) {
+        // Log error but don't break the interval
+        console.error('Error fetching available spots:', err);
+      }
+    };
 
     // Fetch spots immediately when the form is opened
-    fetchAvailableSpots();
+    safeFetchAvailableSpots();
 
-    // Set up an interval to fetch available spots every 5 seconds
-    const intervalId = setInterval(fetchAvailableSpots, 5000);
+    // Set up an interval to fetch available spots every 5 seconds only when modal is open
+    if (open) {
+      intervalId = setInterval(safeFetchAvailableSpots, 5000);
+    }
 
-    // Clear the interval on component unmount or when `mealId` changes
-    return () => clearInterval(intervalId);
-  }, [mealId]);
+    // Cleanup function
+    return () => {
+      isMounted = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [mealId, open]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

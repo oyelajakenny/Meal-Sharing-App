@@ -32,7 +32,11 @@ mealsRouter.get("/", async (req, res, next) => {
 
     // Apply filters
     if (!isNaN(maxPrice)) query.where("meal.price", "<", maxPrice);
-    if (title) query.where("meal.title", "like", `%${title}%`);
+    if (title) {
+      // Escape special SQL LIKE characters to prevent injection
+      const escapedTitle = title.replace(/[%_]/g, '\\$&');
+      query.whereILike("meal.title", `%${escapedTitle}%`);
+    }
     if (dateAfter) query.where("meal.when", ">", dateAfter);
     if (dateBefore) query.where("meal.when", "<", dateBefore);
     if (availableReservations === "true") {
